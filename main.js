@@ -1,3 +1,4 @@
+import "./src/css/style.css"
 import { acneStudiosList } from "./src/lists/acneStudiosList";
 import { Category } from './src/models/Category.js';
 import { CategoryCollection } from './src/models/CategoryCollection.js';
@@ -27,5 +28,14 @@ const ul = document.getElementById("theList");
 for (let i = 0; i < categoryCollection.categories.length; i++) {
   const li = document.createElement("li");
   li.innerHTML = categoryCollection.categories[i].id;
+
+
+  if (categoryCollection.categories[i].parentCategoryId === 'archive-man') {
+    li.className = 'archive-man'; 
+  }
+
   ul.appendChild(li);
 }
+
+
+
