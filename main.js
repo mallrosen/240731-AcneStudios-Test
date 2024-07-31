@@ -30,12 +30,43 @@ for (let i = 0; i < categoryCollection.categories.length; i++) {
   li.innerHTML = categoryCollection.categories[i].id;
 
 
-  if (categoryCollection.categories[i].parentCategoryId === 'archive-man') {
-    li.className = 'archive-man'; 
+//KANSKE GÅR ATT GÖRA PÅ ETT LÄTTARE SÄTT???
+
+  if (categoryCollection.categories[i].online === false) {
+    li.className = 'offline'; 
+  } else {
+    li.className = 'online'
   }
 
   ul.appendChild(li);
 }
 
+const onlineButton = document.getElementById("onlineButton");
+onlineButton.innerHTML = 'ONLY SHOW OFFLINE'
+
+onlineButton.addEventListener("click", () => {
+  const onlineItems = document.querySelectorAll(".online");
+  const offlineItems = document.querySelectorAll(".offline");
+
+  onlineItems.forEach(item => {
+    if (item.style.display === "none") {
+      item.style.display = "block";
+      onlineButton.innerHTML = 'ONLY SHOW OFFLINE'
+    } else {
+      item.style.display = "none";
+    }
+  });
+
+  offlineItems.forEach(item => {
+    if (item.style.display === "block") {
+      item.style.display = "none";
+    } else {
+      item.style.display = "block";
+            onlineButton.innerHTML = 'ONLY SHOW ONLINE'
+    }
+  });
+});
+
+document.body.appendChild(onlineButton);
 
 
