@@ -1,24 +1,31 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import { acneStudiosList } from "./src/lists/acneStudiosList";
+import { Category } from './src/models/Category.js';
+import { CategoryCollection } from './src/models/CategoryCollection.js';
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+function createCategoryCollection() {
+    const categories = acneStudiosList.categories.map(category => {
+        return new Category(
+            category.id,
+            category.creation_date,
+            category.parent_category_id,
+            category.last_modified,
+            category.name,
+            category.position,
+            category.online
+        );
+    });
 
-setupCounter(document.querySelector('#counter'))
+    return new CategoryCollection(acneStudiosList.total, categories);
+}
+
+const categoryCollection = createCategoryCollection();
+console.log(categoryCollection);
+
+
+const ul = document.getElementById("theList");
+
+for (let i = 0; i < categoryCollection.categories.length; i++) {
+  const li = document.createElement("li");
+  li.innerHTML = categoryCollection.categories[i].id;
+  ul.appendChild(li);
+}
