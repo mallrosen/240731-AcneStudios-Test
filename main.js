@@ -37,85 +37,46 @@ for (let i = 0; i < categoryCollection.categories.length; i++) {
   ul.appendChild(li);
 }
 
+const onlineButton = document.getElementById('onlineButton');
+const offlineButton = document.getElementById('offlineButton');
+const showAllButton = document.getElementById('showAllButton');
+const onlineItems = document.querySelectorAll(".online");
+const offlineItems = document.querySelectorAll(".offline");
 
-const onlineButton = document.getElementById("onlineButton");
-onlineButton.innerHTML = "ONLY SHOW OFFLINE";
+onlineButton.innerHTML = "SHOW ONLINE PRODUCTS";
+offlineButton.innerHTML = "SHOW OFFLINE PRODUCTS";
+showAllButton.innerHTML = "SHOW ALL PRODUCTS"
 
-onlineButton.addEventListener("click", () => {
-  const onlineItems = document.querySelectorAll(".online");
-  const offlineItems = document.querySelectorAll(".offline");
 
+function showOnlineItems() {
   onlineItems.forEach((item) => {
-    if (item.style.display === "none") {
-      item.style.display = "block";
-      onlineButton.innerHTML = "ONLY SHOW OFFLINE";
-    } else {
-      item.style.display = "none";
-    }
+    item.style.display = "block";
   });
-
   offlineItems.forEach((item) => {
-    if (item.style.display === "block") {
-      item.style.display = "none";
-    } else {
-      item.style.display = "block";
-      onlineButton.innerHTML = "ONLY SHOW ONLINE";
-    }
+    item.style.display = "none";
   });
-});
+}
 
+function showOfflineItems() {
+  onlineItems.forEach((item) => {
+    item.style.display = "none";
+  });
+  offlineItems.forEach((item) => {
+    item.style.display = "block";
+  });
+}
 
-//Blir fel med online och offline med denna
+function showAllItems() {
+  onlineItems.forEach((item) => {
+    item.style.display = "block";
+  });
+  offlineItems.forEach((item) => {
+    item.style.display = "block";
+  });
 
-const showAllButton = document.getElementById("showAllButton");
-showAllButton.innerHTML = "SHOW ALL PRODUCTS";
+}
 
-showAllButton.addEventListener("click", () => {
-  const allItems = document.querySelectorAll("#theList li");
-  if (allItems.length > 0) {
-    allItems.forEach((item) => {
-      item.style.display = "block";
-    });
-  } else {
-    console.log('not found');
-  }
-});
-
-
-// const allProductsList = categoryCollection.categories;
-// const container = document.createElement('div')
-// allProductsList.forEach(category => {
-//   if(category.parentCategoryId !== category.parentCategoryId ){
-//     const categoryContainer = document.createElement('div');
-  
-
-//     categoryContainer.className = category.parentCategoryId
-
-//     categoryContainer.textContent = category.parentCategoryId;
-//     container.appendChild(categoryContainer);
-//   }
-//   });
-
-
-// const allProductsList = categoryCollection.categories;
-// const container = document.createElement('div');
-// const app = document.getElementById('app')
-
-// const createdCategories = new Set();
-
-// allProductsList.forEach(category => {
-//   if (!createdCategories.has(category.parentCategoryId)) {
-//     const categoryContainer = document.createElement('div');
-//     categoryContainer.className = category.parentCategoryId;
-//     categoryContainer.textContent = category.parentCategoryId;
-//     container.appendChild(categoryContainer);
-    
-//     createdCategories.add(category.parentCategoryId);
-//   }
-// });
-
-// app.appendChild(container);
-
-
-
+onlineButton.addEventListener('click', showOnlineItems);
+offlineButton.addEventListener('click', showOfflineItems);
+showAllButton.addEventListener('click', showAllItems);
 
