@@ -1,34 +1,66 @@
 import "./src/css/style.css";
 import { acneStudiosList } from "./src/lists/acneStudiosList";
-import { Category } from "./src/models/Category.js";
-import { CategoryCollection } from "./src/models/CategoryCollection.js";
 
-function createCategoryCollection() {
-  const categories = acneStudiosList.categories.map((category) => {
-    return new Category(
-      category.id,
-      category.creation_date,
-      category.parent_category_id,
-      category.last_modified,
-      category.name,
-      category.position,
-      category.online
-    );
-  });
+//FIXA SÅ ATT OFFLINE/ONLINE FUNKAR ÄVEN INNE PÅ KATEGORIER
 
-  return new CategoryCollection(acneStudiosList.total, categories);
+function buildCategoryTree(categories, parentId = 'root') {
+  return categories
+    .filter(category => category.parent_category_id === parentId)
+    .map(category => ({
+      ...category,
+      categories: buildCategoryTree(categories, category.id)
+    }));
 }
 
-const categoryCollection = createCategoryCollection();
-console.log(categoryCollection);
+const categories = acneStudiosList
 
-const ul = document.getElementById("theList");
+const categoryTree = buildCategoryTree(categories);
+console.log(categoryTree);
 
-for (let i = 0; i < categoryCollection.categories.length; i++) {
+
+function traverseTree(tree, callback) {
+  tree.forEach(node => {
+    callback(node);
+    if (node.categories && node.categories.length > 0) {
+      traverseTree(node.categories, callback);
+    }
+  });
+}
+
+// knappar för kategorierna
+const buttonContainer = document.getElementById("buttonContainer");
+
+categoryTree.forEach(rootCategory => {
+  const button = document.createElement('button');
+  button.innerHTML = rootCategory.id;
+  
+  button.addEventListener('click', () => {
+    displayCategoryList(rootCategory.categories);
+  });
+  buttonContainer.appendChild(button);
+});
+
+
+// Funktion för att visa en lista med kategorier
+function displayCategoryList(categories) {
+  const ul = document.getElementById("theList");
+  ul.innerHTML = '';
+  traverseTree(categories, (node) => {
+    const li = document.createElement("li");
+    li.innerHTML = node.id; 
+    ul.appendChild(li);
+  });
+}
+
+
+const ul = document.getElementById('theList')
+
+
+for (let i = 0; i < acneStudiosList.length; i++) {
   const li = document.createElement("li");
-  li.innerHTML = categoryCollection.categories[i].parentCategoryId;
+  li.innerHTML = acneStudiosList[i].id;
 
-  if (categoryCollection.categories[i].online === false) {
+  if (acneStudiosList[i].online === false) {
     li.className = "offline";
   } else {
     li.className = "online";
@@ -79,4 +111,3 @@ function showAllItems() {
 onlineButton.addEventListener('click', showOnlineItems);
 offlineButton.addEventListener('click', showOfflineItems);
 showAllButton.addEventListener('click', showAllItems);
-

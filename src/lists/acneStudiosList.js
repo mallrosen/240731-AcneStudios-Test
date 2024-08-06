@@ -1,6 +1,4 @@
-export const acneStudiosList = {
-    "total": 891,
-    "categories": [
+export const acneStudiosList = [
         {
             "id": "VIP sale",
             "creation_date": "2018-10-03T09:35:05.000Z",
@@ -14557,6 +14555,6 @@ export const acneStudiosList = {
             "online": true
         }
     ]
-}
+
 
 
