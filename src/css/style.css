@@ -2,23 +2,20 @@
   color: red;
 }
 
-
 #theList {  
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; 
   font-size: 1.5rem;
   width: 100%;
   padding: 50px;
-  
-  li {
-    display: flex;
-    width: 30%;
-    margin: 5px;
-  }
 }
 
-
+#theList li {
+  display: block; 
+  width: 100%; 
+  margin: 5px 0; 
+}
 
 #headerAndButton {
   display: flex;
@@ -43,4 +40,3 @@ button  {
 }
 
 }
-
