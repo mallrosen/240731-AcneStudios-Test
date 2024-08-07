@@ -41,8 +41,6 @@ onlineButton.addEventListener('click', showOnlineItems);
 offlineButton.addEventListener('click', showOfflineItems);
 showAllButton.addEventListener('click', showAllItems);
 
-
-
 const buttonContainer = document.getElementById("buttonContainer");
 
 categoryTree.forEach(rootCategory => {
@@ -51,6 +49,7 @@ categoryTree.forEach(rootCategory => {
   
   button.addEventListener('click', () => {
     displayCategoryList(rootCategory.categories);
+    showAllItems()
   });
   buttonContainer.appendChild(button);
 });
@@ -64,16 +63,41 @@ function traverseTree(tree, callback) {
   });
 }
 
+function displayCategoryList(categories) {
+  const ul = document.getElementById("theList");
+  ul.innerHTML = '';
+  traverseTree(categories, (node) => {
+    const li = document.createElement("li");
+    li.innerHTML = node.id; 
+    li.classList.add('item')
+    if (node.online) {
+      li.classList.add('online');
+    } else {
+      li.classList.add('offline');
+    }
+    ul.appendChild(li); 
+  });
+  sortItems()
+  updateItemVisibility()
+}
 
-function updateItemVisibility() {
-  const allItems = document.querySelectorAll('.item'); 
-  allItems.forEach((item) => {
-    if (item.classList.contains('online')) {
-      item.style.display = showOnline ? "block" : "none";
-    } else if (item.classList.contains('offline')) {
-      item.style.display = showOffline ? "block" : "none";
+function sortItems() {
+  const ul = document.getElementById("theList");
+  const itemsArray = [...ul.querySelectorAll('li')];
+
+  itemsArray.sort((a, b) => {
+    const textA = a.textContent.toUpperCase();
+    const textB = b.textContent.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else if (textA > textB) {
+      return 1;
+    } else {
+      return 0;
     }
   });
+  ul.innerHTML = '';
+  itemsArray.forEach(item => ul.appendChild(item));
 }
 
 
@@ -101,23 +125,18 @@ function showAllItems() {
   updateItemVisibility();
 }
 
-
-
-function displayCategoryList(categories) {
-  const ul = document.getElementById("theList");
-  ul.innerHTML = '';
-  traverseTree(categories, (node) => {
-    const li = document.createElement("li");
-    li.innerHTML = node.id; 
-    li.classList.add('item')
-    if (node.online) {
-      li.classList.add('online');
-    } else {
-      li.classList.add('offline');
+function updateItemVisibility() {
+  const allItems = document.querySelectorAll('.item'); 
+  allItems.forEach((item) => {
+    if (item.classList.contains('online')) {
+      item.style.display = showOnline ? "block" : "none";
+    } else if (item.classList.contains('offline')) {
+      item.style.display = showOffline ? "block" : "none";
     }
-    ul.appendChild(li); 
   });
+  sortItems()
 }
+
 
 
 
