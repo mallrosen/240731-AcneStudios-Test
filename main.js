@@ -127,36 +127,4 @@ function updateItemVisibility() {
 //STARTSIDAN
 displayCategoryList(acneStudiosList)
 
-// const onlineItems = document.querySelectorAll(".online");
-// const offlineItems = document.querySelectorAll(".offline");
-
-// function showOnlineItems() {
-//   onlineItems.forEach((item) => {
-//     item.style.display = "block";
-//   });
-//   offlineItems.forEach((item) => {
-//     item.style.display = "none";
-//   });
-// }
-
-// function showOfflineItems() {
-//   onlineItems.forEach((item) => {
-//     item.style.display = "none";
-//   });
-//   offlineItems.forEach((item) => {
-//     item.style.display = "block";
-//   });
-// }
-
-// function showAllItems() {
-//   onlineItems.forEach((item) => {
-//     item.style.display = "block";
-//   });
-//   offlineItems.forEach((item) => {
-//     item.style.display = "block";
-//   });
-
-// }
-
-
 
