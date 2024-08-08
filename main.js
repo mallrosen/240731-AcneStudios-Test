@@ -13,20 +13,6 @@ function buildCategoryTree(categories, parentId = 'root') {
 const categoryTree = buildCategoryTree(acneStudiosList);
 console.log(categoryTree);
 
-const ul = document.getElementById('theList')
-
-for (let i = 0; i < acneStudiosList.length; i++) {
-  const li = document.createElement("li");
-  li.innerHTML = acneStudiosList[i].id;
-
-  if (acneStudiosList[i].online === false) {
-    li.className = "offline";
-  } else {
-    li.className = "online";
-  }
-
-  ul.appendChild(li);
-}
 
 const onlineButton = document.getElementById('onlineButton');
 const offlineButton = document.getElementById('offlineButton');
@@ -40,6 +26,7 @@ showAllButton.innerHTML = "SHOW ALL PRODUCTS"
 onlineButton.addEventListener('click', showOnlineItems);
 offlineButton.addEventListener('click', showOfflineItems);
 showAllButton.addEventListener('click', showAllItems);
+
 
 const buttonContainer = document.getElementById("buttonContainer");
 
@@ -137,9 +124,8 @@ function updateItemVisibility() {
   sortItems()
 }
 
-
-
-
+//STARTSIDAN
+displayCategoryList(acneStudiosList)
 
 // const onlineItems = document.querySelectorAll(".online");
 // const offlineItems = document.querySelectorAll(".offline");
