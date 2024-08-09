@@ -32,14 +32,23 @@ const buttonContainer = document.getElementById("buttonContainer");
 
 categoryTree.forEach(rootCategory => {
   const button = document.createElement('button');
-  button.innerHTML = rootCategory.id;
+  button.innerHTML = rootCategory.name.default;
   
-  button.addEventListener('click', () => {
+  button.addEventListener('click', function() {
+
+    document.querySelectorAll('#buttonContainer button').forEach(btn => {
+      btn.classList.remove('hover-active');
+    });
+    this.classList.toggle('hover-active');
     displayCategoryList(rootCategory.categories);
-    showAllItems()
+    showAllItems();
+    
   });
   buttonContainer.appendChild(button);
 });
+
+
+
 
 function traverseTree(tree, callback) {
   tree.forEach(node => {
@@ -124,7 +133,5 @@ function updateItemVisibility() {
   sortItems()
 }
 
-//STARTSIDAN
+//STARTSIDAN, VAD SKA JAG HA HÄR??
 displayCategoryList(acneStudiosList)
-
-
