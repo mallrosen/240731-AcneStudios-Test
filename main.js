@@ -10,6 +10,15 @@ function buildCategoryTree(categories, parentId = 'root') {
     }));
 }
 
+// function traverseTree(tree, callback) {
+//   tree.forEach(node => {
+//     callback(node);
+//     if (node.categories && node.categories.length > 0) {
+//       traverseTree(node.categories, callback);
+//     }
+//   });
+// }
+
 const categoryTree = buildCategoryTree(acneStudiosList);
 console.log(categoryTree);
 
@@ -30,6 +39,11 @@ showAllButton.addEventListener('click', showAllItems);
 
 const buttonContainer = document.getElementById("buttonContainer");
 
+
+
+
+
+//för varje sak i min lista ska jag göra en addeventlistener som gör att om man klickar på den så kommer man
 categoryTree.forEach(rootCategory => {
   const button = document.createElement('button');
   button.innerHTML = rootCategory.name.default;
@@ -41,40 +55,41 @@ categoryTree.forEach(rootCategory => {
     });
     this.classList.toggle('hover-active');
     displayCategoryList(rootCategory.categories);
-    showAllItems();
+
     
   });
   buttonContainer.appendChild(button);
 });
 
-
-
-
-function traverseTree(tree, callback) {
-  tree.forEach(node => {
-    callback(node);
-    if (node.categories && node.categories.length > 0) {
-      traverseTree(node.categories, callback);
-    }
-  });
-}
+//INGEN KLICK OM MAN INTE KAN
+//if (categories && categories.length > 0)
 
 function displayCategoryList(categories) {
+
   const ul = document.getElementById("theList");
   ul.innerHTML = '';
-  traverseTree(categories, (node) => {
-    const li = document.createElement("li");
-    li.innerHTML = node.id; 
+
+
+  categories.forEach(category => {
+    const li = document.createElement('li');
+
+    li.textContent = category.name.default;
     li.classList.add('item')
-    if (node.online) {
+    if (category.online) {
       li.classList.add('online');
     } else {
       li.classList.add('offline');
     }
-    ul.appendChild(li); 
+
+    li.addEventListener('click', () => {
+      displayCategoryList(category.categories);
+    });
+
+    ul.appendChild(li);
   });
+
   sortItems()
-  updateItemVisibility()
+
 }
 
 function sortItems() {
@@ -133,5 +148,3 @@ function updateItemVisibility() {
   sortItems()
 }
 
-//STARTSIDAN, VAD SKA JAG HA HÄR??
-displayCategoryList(acneStudiosList)
