@@ -61,9 +61,6 @@ categoryTree.forEach(rootCategory => {
   buttonContainer.appendChild(button);
 });
 
-//INGEN KLICK OM MAN INTE KAN
-//if (categories && categories.length > 0)
-
 function displayCategoryList(categories) {
 
   const ul = document.getElementById("theList");
@@ -71,6 +68,8 @@ function displayCategoryList(categories) {
 
 
   categories.forEach(category => {
+    const itemDisplay = document.getElementById('item-display')
+    itemDisplay.innerHTML = '';
     const li = document.createElement('li');
 
     li.textContent = category.name.default;
@@ -82,15 +81,30 @@ function displayCategoryList(categories) {
     }
 
     li.addEventListener('click', () => {
-      displayCategoryList(category.categories);
+      if (category.categories && category.categories.length === 0) {
+        displayCategoryName(category.name.default);
+      } else {
+        displayCategoryList(category.categories);
+      }
     });
 
     ul.appendChild(li);
   });
 
-  sortItems()
-
+  sortItems();
 }
+
+function displayCategoryName(name) {
+  const displayDiv = document.getElementById('item-display');
+  const acneStudiosList = document.getElementById('theList')
+  displayDiv.innerHTML = ''; 
+  acneStudiosList.innerHTML = '';
+
+  const nameElement = document.createElement('div');
+  nameElement.textContent = name;
+  displayDiv.appendChild(nameElement);
+}
+
 
 function sortItems() {
   const ul = document.getElementById("theList");
