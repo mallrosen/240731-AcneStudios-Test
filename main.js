@@ -10,15 +10,6 @@ function buildCategoryTree(categories, parentId = 'root') {
     }));
 }
 
-// function traverseTree(tree, callback) {
-//   tree.forEach(node => {
-//     callback(node);
-//     if (node.categories && node.categories.length > 0) {
-//       traverseTree(node.categories, callback);
-//     }
-//   });
-// }
-
 const categoryTree = buildCategoryTree(acneStudiosList);
 console.log(categoryTree);
 
@@ -40,14 +31,15 @@ showAllButton.addEventListener('click', showAllItems);
 const buttonContainer = document.getElementById("buttonContainer");
 
 
-
-
-
-//för varje sak i min lista ska jag göra en addeventlistener som gör att om man klickar på den så kommer man
 categoryTree.forEach(rootCategory => {
   const button = document.createElement('button');
   button.innerHTML = rootCategory.name.default;
-  
+
+  if (rootCategory.name.default === 'Hidden') {
+    button.classList = 'hidden';
+  }
+
+
   button.addEventListener('click', function() {
 
     document.querySelectorAll('#buttonContainer button').forEach(btn => {
@@ -55,11 +47,14 @@ categoryTree.forEach(rootCategory => {
     });
     this.classList.toggle('hover-active');
     displayCategoryList(rootCategory.categories);
+    showOnline = true;
+    showOffline = false;
+    updateItemVisibility();
 
-    
   });
   buttonContainer.appendChild(button);
-});
+} 
+);
 
 function displayCategoryList(categories) {
 
@@ -126,14 +121,19 @@ function sortItems() {
 }
 
 
-let showOnline = true;
-let showOffline = true;
+const hiddenButton = Array.from(buttonContainer.children).find(button => button.classList.contains('hidden'))
 
+let showOffline = true
+let showOnline = true
 
 function showOnlineItems() {
   showOnline = true;
   showOffline = false;
   updateItemVisibility();
+  if(hiddenButton){
+    hiddenButton.classList = 'hidden'
+  }
+
 }
 
 
@@ -141,6 +141,10 @@ function showOfflineItems() {
   showOnline = false;
   showOffline = true;
   updateItemVisibility();
+  if(hiddenButton){
+    hiddenButton.classList.replace('hidden', 'offline')
+  }
+
 }
 
 
@@ -148,6 +152,9 @@ function showAllItems() {
   showOnline = true;
   showOffline = true;
   updateItemVisibility();
+  if(hiddenButton){
+    hiddenButton.classList.replace('hidden', 'offline')
+  }
 }
 
 function updateItemVisibility() {
